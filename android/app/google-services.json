@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "345022615835",
+    "firebase_url": "https://tourmetaverse-default-rtdb.firebaseio.com",
+    "project_id": "tourmetaverse",
+    "storage_bucket": "tourmetaverse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345022615835:android:98cc479df4ebf0826983be",
+        "android_client_info": {
+          "package_name": "com.tourguide.metaverse.tour_guide_metaverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345022615835-onvc8v974nh2tkbrrq89glql1cpi4ssa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-k3qBpiyV6iTRBvC82-zra7hc5j2Y-r0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345022615835-onvc8v974nh2tkbrrq89glql1cpi4ssa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "345022615835-pfmumev70u957j73rn63bes20tc8o9ah.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tourguide.metaverse.tourGuideMetaverse"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345022615835:android:5c1c09a6c6bcb16d6983be",
+        "android_client_info": {
+          "package_name": "com.tourguide.metaverse.tour_guide_metaverse_cab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345022615835-onvc8v974nh2tkbrrq89glql1cpi4ssa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-k3qBpiyV6iTRBvC82-zra7hc5j2Y-r0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345022615835-onvc8v974nh2tkbrrq89glql1cpi4ssa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "345022615835-pfmumev70u957j73rn63bes20tc8o9ah.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tourguide.metaverse.tourGuideMetaverse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

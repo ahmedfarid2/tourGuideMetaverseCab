@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>345022615835-738pvuqc4svcl1frfmn5tjegrg3f7d5t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.345022615835-738pvuqc4svcl1frfmn5tjegrg3f7d5t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBOUVEJVt2Q4jKdcVLTmaGeq257APZfqS8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>345022615835</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.tourguide.metaverse.tourGuideMetaverseCab</string>
+	<key>PROJECT_ID</key>
+	<string>tourmetaverse</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tourmetaverse.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:345022615835:ios:a81f77877a9e53fb6983be</string>
+	<key>DATABASE_URL</key>
+	<string>https://tourmetaverse-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
