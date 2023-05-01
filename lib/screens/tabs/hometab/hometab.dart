@@ -20,7 +20,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  late Position currentPosition;
   late GoogleMapController mapController;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -52,7 +51,7 @@ class _HomeTabState extends State<HomeTab> {
     currentFirebaseUser = await FirebaseAuth.instance.currentUser;
     PushNotificationService pushNotificationService = PushNotificationService();
 
-    pushNotificationService.initialize();
+    pushNotificationService.initialize(context);
     pushNotificationService.getToken();
   }
 
