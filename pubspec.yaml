@@ -53,6 +53,7 @@ dependencies:
   geolocator: ^9.0.2
   flutter_polyline_points: ^1.0.0
   flutter_geofire: ^2.0.3
+  maps_toolkit: ^2.0.1
 
 dev_dependencies:
   flutter_test:

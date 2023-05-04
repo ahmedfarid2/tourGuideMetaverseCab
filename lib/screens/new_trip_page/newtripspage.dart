@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tour_guide_metaversecab/brand_colors.dart';
 import 'package:tour_guide_metaversecab/datamodels/tripdetails.dart';
 import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
 import 'package:tour_guide_metaversecab/shared/helpers/helperMethods.dart';
+import 'package:tour_guide_metaversecab/shared/helpers/mapKitHelper.dart';
+import 'package:tour_guide_metaversecab/shared/reusable_components/CollectPaymentDialog.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/progressDialog.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/tourButton.dart';
 
@@ -33,8 +37,58 @@ class _NewTripPageState extends State<NewTripPage> {
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
 
+  var locationOptions = LocationSettings(
+    accuracy: LocationAccuracy.bestForNavigation,
+  );
+
+  BitmapDescriptor? MovingMarkerIcon;
+
+  late Position myPosition;
+
+  String status = 'accepted';
+
+  String durationString = '';
+
+  bool isRequestingDirection = false;
+
+  String buttonTitle = 'ARRIVED';
+
+  Color buttonColor = BrandColors.colorGreen;
+
+  Timer? timer;
+
+  int durationCounter = 0;
+
+  void createMarker() {
+    if (MovingMarkerIcon == null) {
+      ImageConfiguration imageConfiguration = createLocalImageConfiguration(
+        context,
+        size: Size(
+          2,
+          2,
+        ),
+      );
+      BitmapDescriptor.fromAssetImage(
+        imageConfiguration,
+        (Platform.isIOS)
+            ? 'assets/images/car_ios.png'
+            : 'assets/images/car_android.png',
+      ).then((icon) {
+        MovingMarkerIcon = icon;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    acceptTrip();
+  }
+
   @override
   Widget build(BuildContext context) {
+    createMarker();
     return Scaffold(
       body: Stack(
         children: [
@@ -61,6 +115,7 @@ class _NewTripPageState extends State<NewTripPage> {
                   LatLng(currentPosition.latitude, currentPosition.longitude);
               var pickupLatLng = widget.tripDetails.pickup;
               await getDirection(currentLatLng, pickupLatLng!);
+              getLocationUpdates();
             },
           ),
           Positioned(
@@ -100,7 +155,7 @@ class _NewTripPageState extends State<NewTripPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '14 Mins',
+                      durationString,
                       style: TextStyle(
                         fontSize: 14.0,
                         fontFamily: 'Brand-Bold',
@@ -114,7 +169,7 @@ class _NewTripPageState extends State<NewTripPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Danial jones',
+                          widget.tripDetails.riderName!,
                           style: TextStyle(
                             fontSize: 22,
                             fontFamily: 'Brand-Bold',
@@ -142,7 +197,7 @@ class _NewTripPageState extends State<NewTripPage> {
                         Expanded(
                           child: Container(
                             child: Text(
-                              'heliop',
+                              widget.tripDetails.pickupAddress!,
                               style: TextStyle(
                                 fontSize: 18,
                                 overflow: TextOverflow.ellipsis,
@@ -166,7 +221,7 @@ class _NewTripPageState extends State<NewTripPage> {
                         Expanded(
                           child: Container(
                             child: Text(
-                              'heliop',
+                              widget.tripDetails.destinationAddress!,
                               style: TextStyle(
                                 fontSize: 18,
                                 overflow: TextOverflow.ellipsis,
@@ -180,9 +235,35 @@ class _NewTripPageState extends State<NewTripPage> {
                       height: 25,
                     ),
                     TourButtton(
-                      title: 'ARRIVED',
-                      color: BrandColors.colorGreen,
-                      onPressed: () {},
+                      title: buttonTitle,
+                      color: buttonColor,
+                      onPressed: () async {
+                        if (status == 'accepted') {
+                          status = 'arrived';
+                          rideRef.child('status').set(('arrived'));
+                          setState(() {
+                            buttonTitle = 'START TRIP';
+                            buttonColor = BrandColors.colorAccentPurple;
+                          });
+
+                          HelperMethods.showProgressDialog(context);
+
+                          await getDirection(widget.tripDetails.pickup!,
+                              widget.tripDetails.destination!);
+
+                          Navigator.pop(context);
+                        } else if (status == 'arrived') {
+                          status = 'ontrip';
+                          rideRef.child('status').set(('ontrip'));
+                          setState(() {
+                            buttonTitle = 'END TRIP';
+                            buttonColor = Colors.red[900]!;
+                          });
+                          startTimer();
+                        } else if (status == 'ontrip') {
+                          endTrip();
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -192,6 +273,103 @@ class _NewTripPageState extends State<NewTripPage> {
         ],
       ),
     );
+  }
+
+  void acceptTrip() {
+    String? rideID = widget.tripDetails.rideID;
+
+    rideRef = FirebaseDatabase.instance.ref().child('tourRequest/$rideID');
+    rideRef.child('status').set('accepted');
+    rideRef.child('tour_guide_name').set(currentTourGuideInfo?.fullName);
+    rideRef.child('tour_guide_phone').set(currentTourGuideInfo?.phone);
+    rideRef.child('tour_guide_id').set(currentTourGuideInfo?.id);
+    rideRef.child('tour_info').set(
+        '${currentTourGuideInfo?.academicCertificate} - ${currentTourGuideInfo?.languages}');
+    Map locationMap = {
+      'latitude': currentPosition.latitude.toString(),
+      'longitude': currentPosition.longitude.toString(),
+    };
+    rideRef.child('tour_guide_location').set(locationMap);
+
+    DatabaseReference historyRef = FirebaseDatabase.instance
+        .ref()
+        .child('tourGuides/${currentFirebaseUser!.uid}/history/$rideID');
+    historyRef.set(true);
+  }
+
+  void getLocationUpdates() {
+    LatLng oldPosition = LatLng(0, 0);
+
+    ridePostionStream =
+        Geolocator.getPositionStream(locationSettings: locationOptions)
+            .listen((Position position) {
+      myPosition = position;
+      currentPosition = position;
+      LatLng pos = LatLng(position.latitude, position.longitude);
+
+      var rotation = MapKitHelper.getMarkerRotation(
+        oldPosition.latitude,
+        oldPosition.longitude,
+        pos.latitude,
+        pos.longitude,
+      );
+
+      Marker movingMarker = Marker(
+        markerId: MarkerId('moving'),
+        position: pos,
+        icon: MovingMarkerIcon!,
+        rotation: rotation,
+        infoWindow: InfoWindow(
+          title: 'Current Location',
+        ),
+      );
+
+      setState(() {
+        CameraPosition cp = new CameraPosition(target: pos, zoom: 17);
+        rideMapController.animateCamera(CameraUpdate.newCameraPosition(cp));
+
+        _markers.removeWhere((marker) => marker.markerId.value == 'moving');
+        _markers.add(movingMarker);
+      });
+      oldPosition = pos;
+
+      updateTripDetails();
+
+      Map locationMap = {
+        'latitude': myPosition.latitude.toString(),
+        'longitude': myPosition.longitude.toString(),
+      };
+
+      rideRef.child('tour_guide_location').set(locationMap);
+    });
+  }
+
+  void updateTripDetails() async {
+    if (!isRequestingDirection) {
+      isRequestingDirection = true;
+      if (myPosition == null) {
+        return;
+      }
+
+      var positionLatLng = LatLng(myPosition.latitude, myPosition.longitude);
+
+      LatLng? destinationLatLng;
+
+      if (status == 'accepted') {
+        destinationLatLng = widget.tripDetails.pickup;
+      } else {
+        destinationLatLng = widget.tripDetails.destination;
+      }
+
+      var directionDetails = await HelperMethods.getDirectionDetails(
+          positionLatLng, destinationLatLng!);
+      if (directionDetails != null) {
+        setState(() {
+          durationString = directionDetails!.durtionText!;
+        });
+      }
+      isRequestingDirection = false;
+    }
   }
 
   Future<void> getDirection(
@@ -297,5 +475,61 @@ class _NewTripPageState extends State<NewTripPage> {
         _circles.add(destinationCircle);
       });
     }
+  }
+
+  void startTimer() {
+    const interval = Duration(seconds: 1);
+    timer = Timer.periodic(interval, (timer) {
+      durationCounter++;
+    });
+  }
+
+  void endTrip() async {
+    timer?.cancel();
+
+    HelperMethods.showProgressDialog(context);
+
+    var currentLatLng = LatLng(myPosition.latitude, myPosition.longitude);
+
+    var directionDetails = await HelperMethods.getDirectionDetails(
+        widget.tripDetails.pickup!, currentLatLng);
+
+    Navigator.pop(context);
+
+    int fares = HelperMethods.estimateFares(directionDetails!, durationCounter);
+
+    rideRef.child('fares').set(fares.toString());
+
+    rideRef.child('status').set('ended');
+
+    ridePostionStream?.cancel();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => CollectPaymentDialog(
+        paymentMethod: widget.tripDetails.paymentMethod!,
+        fares: fares,
+      ),
+    );
+
+    topUpEarning(fares);
+  }
+
+  void topUpEarning(int fares) {
+    DatabaseReference earningsRef = FirebaseDatabase.instance
+        .ref()
+        .child('tourGuides/${currentFirebaseUser!.uid}/earnings');
+    earningsRef.once().then((DatabaseEvent databaseEvent) {
+      if (databaseEvent.snapshot.value != null) {
+        double oldEarnings =
+            double.parse(databaseEvent.snapshot.value.toString());
+        double adjustedEarnings = (fares.toDouble() * 0.85) + oldEarnings;
+        earningsRef.set(adjustedEarnings.toStringAsFixed(2));
+      } else {
+        double adjustedEarnings = (fares.toDouble() * 0.85);
+        earningsRef.set(adjustedEarnings.toStringAsFixed(2));
+      }
+    });
   }
 }

@@ -5,6 +5,7 @@ import 'package:tour_guide_metaversecab/brand_colors.dart';
 import 'package:tour_guide_metaversecab/datamodels/tripdetails.dart';
 import 'package:tour_guide_metaversecab/screens/new_trip_page/newtripspage.dart';
 import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
+import 'package:tour_guide_metaversecab/shared/helpers/helperMethods.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/BrandDivider.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/progressDialog.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/tourButton.dart';
@@ -187,6 +188,7 @@ class NotificationDialog extends StatelessWidget {
       }
       if (thisRideID == tripDetails.rideID) {
         newRideRef.set('accepted');
+        HelperMethods.disableHomeTabLocationUpdates();
         Navigator.push(
           context,
           MaterialPageRoute(

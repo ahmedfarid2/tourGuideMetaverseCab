@@ -7,6 +7,7 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tour_guide_metaversecab/brand_colors.dart';
+import 'package:tour_guide_metaversecab/datamodels/tourGuide.dart';
 import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
 import 'package:tour_guide_metaversecab/shared/helpers/pushNotificationService.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/availabilityButton.dart';
@@ -49,6 +50,14 @@ class _HomeTabState extends State<HomeTab> {
 
   void getCurrentTourInfo() async {
     currentFirebaseUser = await FirebaseAuth.instance.currentUser;
+    DatabaseReference driverRef = FirebaseDatabase.instance
+        .ref()
+        .child('tourGuides/${currentFirebaseUser?.uid}');
+    driverRef.once().then((DatabaseEvent databaseEvent) {
+      if (databaseEvent.snapshot.value != null) {
+        currentTourGuideInfo = TourGuide.fromSnapshot(databaseEvent);
+      }
+    });
     PushNotificationService pushNotificationService = PushNotificationService();
 
     pushNotificationService.initialize(context);

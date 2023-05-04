@@ -113,6 +113,8 @@ class PushNotificationService {
             double.parse(data['destination']['longitude'].toString());
         String destinationAddress = data['destination_address'].toString();
         String paymentMethod = data['payment_method'];
+        String riderName = data['tour_guide_name'];
+        String riderPhone = data['tour_guide_phone'];
 
         TripDetails tripDetails = TripDetails();
 
@@ -122,6 +124,8 @@ class PushNotificationService {
         tripDetails.pickup = LatLng(pickupLat, pickupLng);
         tripDetails.destination = LatLng(destinationLat, destinationLng);
         tripDetails.paymentMethod = paymentMethod;
+        tripDetails.riderName = riderName;
+        tripDetails.riderPhone = riderPhone;
 
         showDialog(
           context: context,
