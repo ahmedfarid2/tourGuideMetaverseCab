@@ -365,7 +365,7 @@ class _NewTripPageState extends State<NewTripPage> {
           positionLatLng, destinationLatLng!);
       if (directionDetails != null) {
         setState(() {
-          durationString = directionDetails!.durtionText!;
+          durationString = directionDetails.durtionText!;
         });
       }
       isRequestingDirection = false;

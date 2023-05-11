@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tour_guide_metaversecab/brand_colors.dart';
 import 'package:tour_guide_metaversecab/datamodels/tourGuide.dart';
 import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
+import 'package:tour_guide_metaversecab/shared/helpers/helperMethods.dart';
 import 'package:tour_guide_metaversecab/shared/helpers/pushNotificationService.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/availabilityButton.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/confirmSheet.dart';
@@ -62,6 +63,8 @@ class _HomeTabState extends State<HomeTab> {
 
     pushNotificationService.initialize(context);
     pushNotificationService.getToken();
+
+    HelperMethods.getHistoryInfo(context);
   }
 
   @override

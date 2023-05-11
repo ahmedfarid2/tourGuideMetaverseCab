@@ -1,10 +1,15 @@
 import 'dart:math';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:tour_guide_metaversecab/datamodels/directionDetails.dart';
+import 'package:tour_guide_metaversecab/datamodels/history.dart';
 import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
+import 'package:tour_guide_metaversecab/shared/data_provider/dataprovider.dart';
 import 'package:tour_guide_metaversecab/shared/helpers/requesthelper.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/progressDialog.dart';
 
@@ -81,5 +86,67 @@ class HelperMethods {
       builder: (BuildContext context) =>
           const ProgressDialog(status: 'Accepting Request'),
     );
+  }
+
+  static void getHistoryInfo(context) {
+    DatabaseReference earningRef = FirebaseDatabase.instance
+        .ref()
+        .child('tourGuides/${currentFirebaseUser!.uid}/earnings');
+
+    earningRef.once().then((DatabaseEvent databaseEvent) {
+      if (databaseEvent.snapshot.value != null) {
+        String earnings = databaseEvent.snapshot.value.toString();
+        Provider.of<AppData>(context, listen: false).updateEarnings(earnings);
+      }
+    });
+
+    DatabaseReference historyRef = FirebaseDatabase.instance
+        .ref()
+        .child('tourGuides/${currentFirebaseUser!.uid}/history');
+
+    historyRef.once().then((DatabaseEvent databaseEvent) {
+      if (databaseEvent.snapshot.value != null) {
+        final data = databaseEvent.snapshot.value as Map;
+        int tripCount = data.length;
+
+        // update trip count to data provider
+        Provider.of<AppData>(context, listen: false).updateTripCount(tripCount);
+
+        List<String> tripHistoryKeys = [];
+        data.forEach((key, value) {
+          tripHistoryKeys.add(key);
+        });
+        // update trip keys to data provider
+        Provider.of<AppData>(context, listen: false)
+            .updateTripKeys(tripHistoryKeys);
+
+        getHistoryData(context);
+      }
+    });
+  }
+
+  static void getHistoryData(context) {
+    List<String> keys =
+        Provider.of<AppData>(context, listen: false).tripHistoryKeys;
+    for (String key in keys) {
+      DatabaseReference historyRef =
+          FirebaseDatabase.instance.ref().child('tourRequest/$key');
+      historyRef.once().then((DatabaseEvent databaseEvent) {
+        if (databaseEvent.snapshot.value != null) {
+          var history = History.fromSnapshot(databaseEvent);
+          Provider.of<AppData>(context, listen: false)
+              .updateTripHistory(history);
+          print(history.pickup);
+        }
+      });
+    }
+  }
+
+  static String formatMyDate(String datestring) {
+    DateTime thisDate = DateTime.parse(datestring);
+    String formattedDate =
+        '${DateFormat.MMMd().format(thisDate)}, ${DateFormat.y().format(thisDate)} - ${DateFormat.jm().format(thisDate)}';
+
+    return formattedDate;
   }
 }

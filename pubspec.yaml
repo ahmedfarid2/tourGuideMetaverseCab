@@ -41,6 +41,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   assets_audio_player: ^3.0.6
   toast: ^0.3.0
+  intl: ^0.17.0
 
   #firebas
   firebase_core: ^2.9.0

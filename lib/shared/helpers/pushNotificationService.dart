@@ -14,6 +14,18 @@ class PushNotificationService {
   final FirebaseMessaging fcm = FirebaseMessaging.instance;
 
   Future initialize(context) async {
+    if (Platform.isIOS) {
+      await fcm.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+    }
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("onMessage: $message");
       fetchRideInfo(getRideID(message), context);
@@ -73,6 +85,9 @@ class PushNotificationService {
     String rideID = '';
 
     if (Platform.isAndroid) {
+      rideID = message.data['ride_id'];
+      print('Received ride ID: $rideID');
+    } else {
       rideID = message.data['ride_id'];
       print('Received ride ID: $rideID');
     }

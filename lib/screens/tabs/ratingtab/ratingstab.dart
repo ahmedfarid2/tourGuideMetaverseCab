@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EarningsTab extends StatelessWidget {
-  const EarningsTab({Key? key}) : super(key: key);
+class RatingsTab extends StatelessWidget {
+  const RatingsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('hello earnings tab'));
+    return Center(child: Text('hello rating tab'));
   }
 }
