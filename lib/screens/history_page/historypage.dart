@@ -12,27 +12,28 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Trip History',
+        title: const Text(
+          'Tour History',
         ),
         backgroundColor: BrandColors.colorPrimary,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_left),
+          icon: const Icon(Icons.keyboard_arrow_left),
         ),
       ),
       body: ListView.separated(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         itemBuilder: (context, index) {
           return HistoryTile(
             history: Provider.of<AppData>(context).tripHistory[index],
           );
         },
-        separatorBuilder: (BuildContext context, int index) => BrandDivider(),
+        separatorBuilder: (BuildContext context, int index) =>
+            const BrandDivider(),
         itemCount: Provider.of<AppData>(context).tripHistory.length,
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
       ),
     );

@@ -12,6 +12,7 @@ import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
 import 'package:tour_guide_metaversecab/shared/helpers/helperMethods.dart';
 import 'package:tour_guide_metaversecab/shared/helpers/mapKitHelper.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/CollectPaymentDialog.dart';
+import 'package:tour_guide_metaversecab/shared/reusable_components/callSheet.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/progressDialog.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/tourButton.dart';
 
@@ -175,12 +176,26 @@ class _NewTripPageState extends State<NewTripPage> {
                             fontFamily: 'Brand-Bold',
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            right: 10,
-                          ),
-                          child: Icon(Icons.call),
-                        ),
+                        Builder(builder: (context) {
+                          return InkWell(
+                            onTap: () {
+                              showBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) => CallSheet(
+                                  title:
+                                      'Phone: ${widget.tripDetails.riderPhone!}',
+                                  onPressed: () {},
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: 10,
+                              ),
+                              child: Icon(Icons.call),
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     SizedBox(

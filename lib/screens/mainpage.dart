@@ -4,6 +4,7 @@ import 'package:tour_guide_metaversecab/screens/tabs/earningstab/earningstab.dar
 import 'package:tour_guide_metaversecab/screens/tabs/hometab/hometab.dart';
 import 'package:tour_guide_metaversecab/screens/tabs/profiletab/profiletab.dart';
 import 'package:tour_guide_metaversecab/screens/tabs/ratingtab/ratingstab.dart';
+import 'package:tour_guide_metaversecab/shared/helpers/helperMethods.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -22,6 +23,9 @@ class _MainPageState extends State<MainPage>
     setState(() {
       selectedIndex = index;
       tabController?.index = selectedIndex;
+      if (index == 1) {
+        HelperMethods.getHistoryInfo(context);
+      }
     });
   }
 

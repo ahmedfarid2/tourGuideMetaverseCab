@@ -78,12 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 100.0,
+                  height: 80.0,
                 ),
                 const Image(
                   alignment: Alignment.center,
-                  width: 100.0,
-                  height: 100.0,
+                  width: 200.0,
+                  height: 200.0,
                   image: AssetImage("assets/images/logo.png"),
                 ),
                 const SizedBox(

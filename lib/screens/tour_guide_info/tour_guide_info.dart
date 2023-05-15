@@ -60,8 +60,8 @@ class _TourGuideInfoPageState extends State<TourGuideInfoPage> {
               ),
               Image.asset(
                 'assets/images/logo.png',
-                height: 110,
-                width: 110,
+                height: 200,
+                width: 200,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
