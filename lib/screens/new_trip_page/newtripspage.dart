@@ -15,6 +15,7 @@ import 'package:tour_guide_metaversecab/shared/reusable_components/CollectPaymen
 import 'package:tour_guide_metaversecab/shared/reusable_components/callSheet.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/progressDialog.dart';
 import 'package:tour_guide_metaversecab/shared/reusable_components/tourButton.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class NewTripPage extends StatefulWidget {
   const NewTripPage({Key? key, required this.tripDetails}) : super(key: key);
@@ -184,7 +185,10 @@ class _NewTripPageState extends State<NewTripPage> {
                                 builder: (BuildContext context) => CallSheet(
                                   title:
                                       'Phone: ${widget.tripDetails.riderPhone!}',
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    launchUrlString(
+                                        'tel://${widget.tripDetails.riderPhone!}');
+                                  },
                                 ),
                               );
                             },

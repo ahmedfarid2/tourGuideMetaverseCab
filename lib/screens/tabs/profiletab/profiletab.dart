@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({Key? key}) : super(key: key);
@@ -15,9 +16,9 @@ class ProfileTab extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.blue[900]!,
-                      Colors.blue[800]!,
-                      Colors.blue[700]!,
+                      Colors.orange[900]!,
+                      Colors.orange[800]!,
+                      Colors.orange[700]!,
                     ],
                   ),
                 ),
@@ -36,14 +37,20 @@ class ProfileTab extends StatelessWidget {
                     ),
                     gradient: RadialGradient(
                       colors: [
-                        Colors.blue[900]!,
-                        Colors.blue[800]!,
-                        Colors.blue[700]!,
+                        Colors.orange[900]!,
+                        Colors.orange[800]!,
+                        Colors.orange[700]!,
                       ],
                     ),
                   ),
                   child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/user_icon.png'),
+                    radius: 50.0,
+                    backgroundColor: Colors.grey,
+                    child: Icon(
+                      Icons.person,
+                      size: 80.0,
+                      color: Colors.orange[900],
+                    ),
                   ),
                 ),
               ),
@@ -65,7 +72,7 @@ class ProfileTab extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'John Doe',
+                      currentTourGuideInfo!.fullName!,
                       style: TextStyle(
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
@@ -74,10 +81,18 @@ class ProfileTab extends StatelessWidget {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      'Metaverse Designer',
+                      currentTourGuideInfo!.email!,
                       style: TextStyle(
                         fontSize: 16.0,
-                        color: Colors.grey[700],
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'Licence Num: ${currentTourGuideInfo!.licenceNumber!}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -91,8 +106,8 @@ class ProfileTab extends StatelessWidget {
             child: Column(
               children: [
                 TabBar(
-                  indicatorColor: Colors.blue[700],
-                  labelColor: Colors.blue[700],
+                  indicatorColor: Colors.orange[700],
+                  labelColor: Colors.orange[700],
                   unselectedLabelColor: Colors.grey[500],
                   tabs: [
                     Tab(text: 'Overview'),
@@ -129,7 +144,7 @@ class ProfileTab extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
+              color: Colors.orange[900],
             ),
           ),
           SizedBox(height: 8.0),
@@ -142,11 +157,28 @@ class ProfileTab extends StatelessWidget {
           ),
           SizedBox(height: 16.0),
           Text(
+            'Phone',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.orange[900],
+            ),
+          ),
+          SizedBox(height: 8.0),
+          Text(
+            currentTourGuideInfo!.phone!,
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Colors.grey[700],
+            ),
+          ),
+          SizedBox(height: 16.0),
+          Text(
             'Skills',
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
+              color: Colors.orange[900],
             ),
           ),
           SizedBox(height: 8.0),
@@ -155,28 +187,28 @@ class ProfileTab extends StatelessWidget {
             children: [
               Chip(
                 label: Text('3D Modeling'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Chip(
                 label: Text('Animation'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Chip(
                 label: Text('Game Design'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Chip(
                 label: Text('UI/UX Design'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
@@ -199,7 +231,7 @@ class ProfileTab extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
+              color: Colors.orange[900],
             ),
           ),
           SizedBox(height: 16.0),
@@ -237,7 +269,7 @@ class ProfileTab extends StatelessWidget {
           style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: Colors.blue[900],
+            color: Colors.orange[900],
           ),
         ),
         SizedBox(height: 4.0),
@@ -279,15 +311,15 @@ class ProfileTab extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
+              color: Colors.orange[900],
             ),
           ),
           SizedBox(height: 16.0),
           _buildEducationItem(
-            institution: 'University of California, Los Angeles',
+            institution: currentTourGuideInfo!.academicCertificate!,
             degree: 'Bachelor of Fine Arts in Design Media Arts',
             dateRange: '2012 - 2016',
-            honors: 'MagnaCum Laude',
+            honors: currentTourGuideInfo!.languages!,
           ),
         ],
       ),
@@ -308,7 +340,7 @@ class ProfileTab extends StatelessWidget {
           style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: Colors.blue[900],
+            color: Colors.orange[900],
           ),
         ),
         SizedBox(height: 4.0),
@@ -352,7 +384,7 @@ class ProfileTab extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
+              color: Colors.orange[900],
             ),
           ),
           SizedBox(height: 8.0),
@@ -361,28 +393,28 @@ class ProfileTab extends StatelessWidget {
             children: [
               Chip(
                 label: Text('Unity'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Chip(
                 label: Text('Unreal Engine'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Chip(
                 label: Text('Maya'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Chip(
                 label: Text('Photoshop'),
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.orange[700],
                 labelStyle: TextStyle(
                   color: Colors.white,
                 ),
