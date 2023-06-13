@@ -55,7 +55,7 @@ class _TourGuideInfoPageState extends State<TourGuideInfoPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Image.asset(
@@ -67,58 +67,58 @@ class _TourGuideInfoPageState extends State<TourGuideInfoPage> {
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       'Enter Tour Guide License',
                       style: TextStyle(
                         fontFamily: 'Brand-Bold',
                         fontSize: 22,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     TextField(
                       controller: academicCertificateController,
                       keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Academic Certificate',
                         hintStyle: TextStyle(
                           color: Colors.grey,
                           fontSize: 10,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextField(
                       controller: languagesController,
                       keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Languages',
                         hintStyle: TextStyle(
                           color: Colors.grey,
                           fontSize: 10,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextField(
                       controller: licenseNumberController,
                       maxLength: 11,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         counterText: '',
                         labelText: 'License Number',
                         hintStyle: TextStyle(
@@ -126,11 +126,11 @@ class _TourGuideInfoPageState extends State<TourGuideInfoPage> {
                           fontSize: 10,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     TourButtton(

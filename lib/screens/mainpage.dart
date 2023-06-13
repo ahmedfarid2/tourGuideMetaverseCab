@@ -43,17 +43,17 @@ class _MainPageState extends State<MainPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: tabController,
         children: [
-          HomeTab(),
-          EarningsTab(),
+          const HomeTab(),
+          const EarningsTab(),
           RatingsTab(),
-          ProfileTab(),
+          const ProfileTab(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage>
         unselectedItemColor: BrandColors.colorIcon,
         selectedItemColor: BrandColors.colorOrange,
         showUnselectedLabels: true,
-        selectedLabelStyle: TextStyle(
+        selectedLabelStyle: const TextStyle(
           fontSize: 15,
         ),
         type: BottomNavigationBarType.fixed,

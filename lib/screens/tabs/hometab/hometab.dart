@@ -28,7 +28,7 @@ class _HomeTabState extends State<HomeTab> {
 
   DatabaseReference? tripRequestRef;
 
-  var locationOptions = LocationSettings(
+  var locationOptions = const LocationSettings(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
 
   String availabilityTitle = 'GO ONLINE';
@@ -79,7 +79,7 @@ class _HomeTabState extends State<HomeTab> {
     return Stack(
       children: [
         GoogleMap(
-          padding: EdgeInsets.only(top: 135),
+          padding: const EdgeInsets.only(top: 135),
           initialCameraPosition: googlePlex,
           mapType: MapType.normal,
           myLocationEnabled: true,

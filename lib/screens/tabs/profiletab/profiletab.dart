@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tour_guide_metaversecab/screens/login_screen/login_screen.dart';
 import 'package:tour_guide_metaversecab/shared/constants/constants.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -59,10 +61,15 @@ class ProfileTab extends StatelessWidget {
                 right: 20.0,
                 child: IconButton(
                   icon: Icon(
-                    Icons.edit,
+                    Icons.logout_outlined,
                     color: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO: Implement logout functionality.
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, LoginScreen.routeName, (route) => false);
+                  },
                 ),
               ),
               Positioned(
@@ -240,7 +247,7 @@ class ProfileTab extends StatelessWidget {
             jobTitle: 'Senior Metaverse Designer',
             dateRange: '2019 - Present',
             description:
-                'Lead designer on multiple projects, including a virtual trade show booth for a Fortune 500 company.',
+            'Lead designer on multiple projects, including a virtual trade show booth for a Fortune 500 company.',
           ),
           SizedBox(height: 8.0),
           _buildExperienceItem(
@@ -248,7 +255,7 @@ class ProfileTab extends StatelessWidget {
             jobTitle: 'Metaverse Designer',
             dateRange: '2016 - 2019',
             description:
-                'Worked on several VR and AR projects, including a virtual art exhibit and a location-based AR game.',
+            'Worked on several VR and AR projects, including a virtual art exhibit and a location-based AR game.',
           ),
         ],
       ),

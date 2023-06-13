@@ -39,7 +39,7 @@ class _NewTripPageState extends State<NewTripPage> {
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
 
-  var locationOptions = LocationSettings(
+  var locationOptions = const LocationSettings(
     accuracy: LocationAccuracy.bestForNavigation,
   );
 
@@ -65,7 +65,7 @@ class _NewTripPageState extends State<NewTripPage> {
     if (MovingMarkerIcon == null) {
       ImageConfiguration imageConfiguration = createLocalImageConfiguration(
         context,
-        size: Size(
+        size: const Size(
           2,
           2,
         ),
@@ -125,7 +125,7 @@ class _NewTripPageState extends State<NewTripPage> {
             right: 0,
             bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(
@@ -158,13 +158,13 @@ class _NewTripPageState extends State<NewTripPage> {
                   children: [
                     Text(
                       durationString,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14.0,
                         fontFamily: 'Brand-Bold',
                         color: BrandColors.colorAccentPurple,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5.0,
                     ),
                     Row(
@@ -172,7 +172,7 @@ class _NewTripPageState extends State<NewTripPage> {
                       children: [
                         Text(
                           widget.tripDetails.riderName!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 22,
                             fontFamily: 'Brand-Bold',
                           ),
@@ -192,7 +192,7 @@ class _NewTripPageState extends State<NewTripPage> {
                                 ),
                               );
                             },
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.only(
                                 right: 10,
                               ),
@@ -202,7 +202,7 @@ class _NewTripPageState extends State<NewTripPage> {
                         }),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     Row(
@@ -210,14 +210,14 @@ class _NewTripPageState extends State<NewTripPage> {
                         Image.asset(
                           'assets/images/pickicon.png',
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 18,
                         ),
                         Expanded(
                           child: Container(
                             child: Text(
                               widget.tripDetails.pickupAddress!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -226,7 +226,7 @@ class _NewTripPageState extends State<NewTripPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -234,14 +234,14 @@ class _NewTripPageState extends State<NewTripPage> {
                         Image.asset(
                           'assets/images/desticon.png',
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 18,
                         ),
                         Expanded(
                           child: Container(
                             child: Text(
                               widget.tripDetails.destinationAddress!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -250,7 +250,7 @@ class _NewTripPageState extends State<NewTripPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     TourButtton(
@@ -317,7 +317,7 @@ class _NewTripPageState extends State<NewTripPage> {
   }
 
   void getLocationUpdates() {
-    LatLng oldPosition = LatLng(0, 0);
+    LatLng oldPosition = const LatLng(0, 0);
 
     ridePostionStream =
         Geolocator.getPositionStream(locationSettings: locationOptions)
@@ -334,11 +334,11 @@ class _NewTripPageState extends State<NewTripPage> {
       );
 
       Marker movingMarker = Marker(
-        markerId: MarkerId('moving'),
+        markerId: const MarkerId('moving'),
         position: pos,
         icon: MovingMarkerIcon!,
         rotation: rotation,
-        infoWindow: InfoWindow(
+        infoWindow: const InfoWindow(
           title: 'Current Location',
         ),
       );
